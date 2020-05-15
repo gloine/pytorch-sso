@@ -164,6 +164,8 @@ class Curvature(object):
         raise NotImplementedError
 
     def step(self, update_std=False, update_inv=True):
+        if self.data is None or None in self.data:
+            return
         # TODO(oosawak): Add check for ema/inv timing
         self.update_ema()
         if update_inv:
@@ -232,6 +234,8 @@ class DiagCurvature(Curvature):
         return 1 / X_damp
 
     def precondition_grad(self, params):
+        if self.inv is None:
+            return
         for p, inv in zip(params, self.inv):
             preconditioned_grad = inv.mul(p.grad)
 

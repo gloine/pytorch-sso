@@ -67,6 +67,8 @@ class KronCovLinear(KronCurvature):
         self._G = G
 
     def precondition_grad(self, params):
+        if self.inv is None:
+            return
         A_inv, G_inv = self.inv
 
         # todo check params == list?
